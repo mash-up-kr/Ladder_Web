@@ -1,7 +1,9 @@
 import React from "react";
 import type { NextPage } from "next";
 import Head from "next/head";
+import styled from "@emotion/styled";
 import { KakaoLoginButton } from "~/components/domains";
+import { Layout, TopBar, TopBarIconButton } from "~/components/uis";
 import { withRouteGuard } from "~/hocs";
 
 const LoginPage: NextPage = withRouteGuard({ UNCONNECTED: true }, "/", () => {
@@ -13,16 +15,41 @@ const LoginPage: NextPage = withRouteGuard({ UNCONNECTED: true }, "/", () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <KakaoLoginButton
-        restApiKey={
-          process.env.NEXT_PUBLIC_KAKAO_APP_KEY_REST_API_KEY as string
-        }
-        redirectUri={process.env.NEXT_PUBLIC_KAKAO_LOGIN_REDIRECT_URI as string}
-      >
-        카카오 로그인하기
-      </KakaoLoginButton>
+      <Layout screenColor="linear-gradient(#000, 90%, #01356E)">
+        <TopBar leftIconButton={<TopBarIconButton iconName="star" />} />
+        <S.StyledContainer>
+          <S.StyledHeader>
+            방을 만드려면<br></br>
+            로그인이 필요해요
+          </S.StyledHeader>
+          <KakaoLoginButton
+            restApiKey={
+              process.env.NEXT_PUBLIC_KAKAO_APP_KEY_REST_API_KEY as string
+            }
+            redirectUri={
+              process.env.NEXT_PUBLIC_KAKAO_LOGIN_REDIRECT_URI as string
+            }
+          ></KakaoLoginButton>
+        </S.StyledContainer>
+      </Layout>
     </div>
   );
 });
+
+const S = {
+  StyledContainer: styled.div`
+    display: flex;
+    flex-direction: column;
+    margin-top: 42px;
+    gap: 40px;
+  `,
+  StyledHeader: styled.div`
+    font-weight: 600;
+    font-size: 24px;
+    line-height: 34.8px;
+    letter-spacing: -0.25px;
+    color: white;
+  `,
+};
 
 export default LoginPage;
